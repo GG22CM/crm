@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--    将数据库的信息放入properties文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--    声明数据源DataSource,作用是连接数据库的-->
+    <bean id="myDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="maxActive" value="${jdbc.maxActive}"/>
+    </bean>
+
+    <!--    声明mybatis中的SqlSessionFactoryBean类来创建SqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--        将数据库连接池对象赋给此属性-->
+        <property name="dataSource" ref="myDataSource"/>
+
+        <!--        取得其他mybatis配置文件的信息-->
+        <property name="configLocation" value="classpath:mybatis.xml"/>
+    </bean>
+
+    <!--    创建dao对象-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--        指定sqlSessionFactory对象的id-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!--       指定包名获取dao接口的位置,多个包使用逗号进行分隔-->
+        <property name="basePackage" value="com.fyj.crm.settings.dao,com.fyj.crm.workbench.dao"/>
+    </bean>
+
+<!--    声明组件扫描器-->
+    <context:component-scan base-package="com.fyj.crm.settings.service.impl"/>
+    <context:component-scan base-package="com.fyj.crm.workbench.service.impl"/>
+
+<!--    创建监听器中的dicService对象-->
+    <bean id="dicService" class="com.fyj.crm.settings.service.impl.DicServiceImpl">
+
+    </bean>
+<!--    声明事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+<!--        连接数据库，指定数据源-->
+        <property name="dataSource" ref="myDataSource"/>
+
+    </bean>
+
+
+
+<!--    开启事务注解驱动-->
+<!--    <tx:annotation-driven transaction-manager="transactionManager"/>-->
+
+<!--    使用配置文件方式配置事务-->
+    <tx:advice id="myAdvice" transaction-manager="transactionManager">
+<!--        配置事务的属性-->
+        <tx:attributes>
+<!--            分别给不同的方法设置属性-->
+            <tx:method name="login" propagation="REQUIRED" isolation="DEFAULT" rollback-for="com.fyj.crm.exception.LoginException"/>
+            <tx:method name="getUserList" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="save" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="pageList" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="delete" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="getUserListAndActivity" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="update" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="detail" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="deleteRemark" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="saveRemark" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="updateRemark" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="getAll" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="getClueById" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="getActivityListByClueId" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="unbund" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="getActivityListByNameAndNotByClueId" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="bund" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="getActivityListByName" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="getHistoryListByTranId" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="convert" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="changeStage" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="getCharts" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="getRemarkListByActivityId" propagation="REQUIRED" isolation="DEFAULT" read-only="true"/>
+            <tx:method name="getCustomerName" propagation="REQUIRED" isolation="DEFAULT" read-only="true"/>
+<!--            使用通配符可以指定很多方法-->
+        </tx:attributes>
+    </tx:advice>
+
+<!--    配置aop-->
+    <aop:config>
+<!--        指定哪些包中的类要应用事务-->
+        <aop:pointcut id="transactionPointcut" expression="execution(* *..service.impl.*.*(..))"/>
+<!--        配置增强器，关联advice和pointcut-->
+        <aop:advisor advice-ref="myAdvice" pointcut-ref="transactionPointcut"/>
+    </aop:config>
+
+
+
+
+
+
+
+</beans>

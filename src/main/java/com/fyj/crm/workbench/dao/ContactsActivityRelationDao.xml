@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fyj.crm.workbench.dao.ContactsActivityRelationDao">
+  <resultMap id="BaseResultMap" type="com.fyj.crm.workbench.domain.ContactsActivityRelation">
+    <id column="ID" jdbcType="CHAR" property="id" />
+    <result column="CONTACTSID" jdbcType="CHAR" property="contactsid" />
+    <result column="ACTIVITYID" jdbcType="CHAR" property="activityid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CONTACTSID, ACTIVITYID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TBL_CONTACTS_ACTIVITY_RELATION
+    where ID = #{id,jdbcType=CHAR}
+  </select>
+  <insert id="insert" parameterType="com.fyj.crm.workbench.domain.ContactsActivityRelation">
+    insert into TBL_CONTACTS_ACTIVITY_RELATION (ID, CONTACTSID, ACTIVITYID
+      )
+    values (#{id,jdbcType=CHAR}, #{contactsid,jdbcType=CHAR}, #{activityid,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fyj.crm.workbench.domain.ContactsActivityRelation">
+    insert into TBL_CONTACTS_ACTIVITY_RELATION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="contactsid != null">
+        CONTACTSID,
+      </if>
+      <if test="activityid != null">
+        ACTIVITYID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="contactsid != null">
+        #{contactsid,jdbcType=CHAR},
+      </if>
+      <if test="activityid != null">
+        #{activityid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fyj.crm.workbench.domain.ContactsActivityRelation">
+    update TBL_CONTACTS_ACTIVITY_RELATION
+    <set>
+      <if test="contactsid != null">
+        CONTACTSID = #{contactsid,jdbcType=CHAR},
+      </if>
+      <if test="activityid != null">
+        ACTIVITYID = #{activityid,jdbcType=CHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fyj.crm.workbench.domain.ContactsActivityRelation">
+    update TBL_CONTACTS_ACTIVITY_RELATION
+    set CONTACTSID = #{contactsid,jdbcType=CHAR},
+      ACTIVITYID = #{activityid,jdbcType=CHAR}
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

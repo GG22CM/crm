@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fyj.crm.workbench.dao.ClueDao">
+  <delete id="deleteById">
+    delete from tbl_clue where id=#{id}
+  </delete>
+  <select id="selectById" resultType="Clue">
+        select
+          c.ID,
+          c.FULLNAME,
+          c.APPELLATION,
+          u.name as OWNER,
+          c.COMPANY,
+          c.JOB,
+          c.EMAIL,
+          c.PHONE,
+          c.WEBSITE,
+          c.MPHONE,
+          c.STATE,
+          c.SOURCE,
+          c.CREATEBY,
+          c.CREATETIME,
+          c.EDITBY,
+          c.EDITTIME,
+          c.DESCRIPTION,
+          c.CONTACTSUMMARY,
+          c.NEXTCONTACTTIME,
+          c.ADDRESS
+        from tbl_clue c
+        join tbl_user u on c.owner=u.id
+        where c.id=#{id}
+  </select>
+  <resultMap id="BaseResultMap" type="com.fyj.crm.workbench.domain.Clue">
+    <id column="ID" jdbcType="CHAR" property="id" />
+    <result column="FULLNAME" jdbcType="VARCHAR" property="fullname" />
+    <result column="APPELLATION" jdbcType="VARCHAR" property="appellation" />
+    <result column="OWNER" jdbcType="CHAR" property="owner" />
+    <result column="COMPANY" jdbcType="VARCHAR" property="company" />
+    <result column="JOB" jdbcType="VARCHAR" property="job" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="WEBSITE" jdbcType="VARCHAR" property="website" />
+    <result column="MPHONE" jdbcType="VARCHAR" property="mphone" />
+    <result column="STATE" jdbcType="VARCHAR" property="state" />
+    <result column="SOURCE" jdbcType="VARCHAR" property="source" />
+    <result column="CREATEBY" jdbcType="VARCHAR" property="createby" />
+    <result column="CREATETIME" jdbcType="CHAR" property="createtime" />
+    <result column="EDITBY" jdbcType="VARCHAR" property="editby" />
+    <result column="EDITTIME" jdbcType="CHAR" property="edittime" />
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="CONTACTSUMMARY" jdbcType="VARCHAR" property="contactsummary" />
+    <result column="NEXTCONTACTTIME" jdbcType="CHAR" property="nextcontacttime" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, FULLNAME, APPELLATION, OWNER, COMPANY, JOB, EMAIL, PHONE, WEBSITE, MPHONE, STATE, 
+    SOURCE, CREATEBY, CREATETIME, EDITBY, EDITTIME, DESCRIPTION, CONTACTSUMMARY, NEXTCONTACTTIME, 
+    ADDRESS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TBL_CLUE
+    where ID = #{id,jdbcType=CHAR}
+  </select>
+  <insert id="insert" parameterType="com.fyj.crm.workbench.domain.Clue">
+    insert into TBL_CLUE (ID, FULLNAME, APPELLATION, 
+      OWNER, COMPANY, JOB, EMAIL, 
+      PHONE, WEBSITE, MPHONE, 
+      STATE, SOURCE, CREATEBY, 
+      CREATETIME, EDITBY, EDITTIME, 
+      DESCRIPTION, CONTACTSUMMARY, NEXTCONTACTTIME, 
+      ADDRESS)
+    values (#{id,jdbcType=CHAR}, #{fullname,jdbcType=VARCHAR}, #{appellation,jdbcType=VARCHAR}, 
+      #{owner,jdbcType=CHAR}, #{company,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{website,jdbcType=VARCHAR}, #{mphone,jdbcType=VARCHAR}, 
+      #{state,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{createby,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=CHAR}, #{editby,jdbcType=VARCHAR}, #{edittime,jdbcType=CHAR}, 
+      #{description,jdbcType=VARCHAR}, #{contactsummary,jdbcType=VARCHAR}, #{nextcontacttime,jdbcType=CHAR}, 
+      #{address,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fyj.crm.workbench.domain.Clue">
+    insert into TBL_CLUE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="fullname != null">
+        FULLNAME,
+      </if>
+      <if test="appellation != null">
+        APPELLATION,
+      </if>
+      <if test="owner != null">
+        OWNER,
+      </if>
+      <if test="company != null">
+        COMPANY,
+      </if>
+      <if test="job != null">
+        JOB,
+      </if>
+      <if test="email != null">
+        EMAIL,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="website != null">
+        WEBSITE,
+      </if>
+      <if test="mphone != null">
+        MPHONE,
+      </if>
+      <if test="state != null">
+        STATE,
+      </if>
+      <if test="source != null">
+        SOURCE,
+      </if>
+      <if test="createby != null">
+        CREATEBY,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="editby != null">
+        EDITBY,
+      </if>
+      <if test="edittime != null">
+        EDITTIME,
+      </if>
+      <if test="description != null">
+        DESCRIPTION,
+      </if>
+      <if test="contactsummary != null">
+        CONTACTSUMMARY,
+      </if>
+      <if test="nextcontacttime != null">
+        NEXTCONTACTTIME,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="fullname != null">
+        #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="appellation != null">
+        #{appellation,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null">
+        #{owner,jdbcType=CHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null">
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null">
+        #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="mphone != null">
+        #{mphone,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=CHAR},
+      </if>
+      <if test="editby != null">
+        #{editby,jdbcType=VARCHAR},
+      </if>
+      <if test="edittime != null">
+        #{edittime,jdbcType=CHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsummary != null">
+        #{contactsummary,jdbcType=VARCHAR},
+      </if>
+      <if test="nextcontacttime != null">
+        #{nextcontacttime,jdbcType=CHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fyj.crm.workbench.domain.Clue">
+    update TBL_CLUE
+    <set>
+      <if test="fullname != null">
+        FULLNAME = #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="appellation != null">
+        APPELLATION = #{appellation,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null">
+        OWNER = #{owner,jdbcType=CHAR},
+      </if>
+      <if test="company != null">
+        COMPANY = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null">
+        JOB = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null">
+        WEBSITE = #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="mphone != null">
+        MPHONE = #{mphone,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        SOURCE = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="createby != null">
+        CREATEBY = #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=CHAR},
+      </if>
+      <if test="editby != null">
+        EDITBY = #{editby,jdbcType=VARCHAR},
+      </if>
+      <if test="edittime != null">
+        EDITTIME = #{edittime,jdbcType=CHAR},
+      </if>
+      <if test="description != null">
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsummary != null">
+        CONTACTSUMMARY = #{contactsummary,jdbcType=VARCHAR},
+      </if>
+      <if test="nextcontacttime != null">
+        NEXTCONTACTTIME = #{nextcontacttime,jdbcType=CHAR},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fyj.crm.workbench.domain.Clue">
+    update TBL_CLUE
+    set FULLNAME = #{fullname,jdbcType=VARCHAR},
+      APPELLATION = #{appellation,jdbcType=VARCHAR},
+      OWNER = #{owner,jdbcType=CHAR},
+      COMPANY = #{company,jdbcType=VARCHAR},
+      JOB = #{job,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      WEBSITE = #{website,jdbcType=VARCHAR},
+      MPHONE = #{mphone,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
+      SOURCE = #{source,jdbcType=VARCHAR},
+      CREATEBY = #{createby,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=CHAR},
+      EDITBY = #{editby,jdbcType=VARCHAR},
+      EDITTIME = #{edittime,jdbcType=CHAR},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      CONTACTSUMMARY = #{contactsummary,jdbcType=VARCHAR},
+      NEXTCONTACTTIME = #{nextcontacttime,jdbcType=CHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fyj.crm.workbench.dao.CustomerDao">
+  <select id="getCustomerName" resultType="String">
+    select name from tbl_customer where name like '%'||#{name}||'%'
+  </select>
+  <select id="getCustomerByName" resultType="Customer">
+    select * from tbl_customer where name=#{name}
+  </select>
+  <resultMap id="BaseResultMap" type="com.fyj.crm.workbench.domain.Customer">
+    <id column="ID" jdbcType="CHAR" property="id" />
+    <result column="OWNER" jdbcType="CHAR" property="owner" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="WEBSITE" jdbcType="VARCHAR" property="website" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="CREATEBY" jdbcType="VARCHAR" property="createby" />
+    <result column="CREATETIME" jdbcType="CHAR" property="createtime" />
+    <result column="EDITBY" jdbcType="VARCHAR" property="editby" />
+    <result column="EDITTIME" jdbcType="CHAR" property="edittime" />
+    <result column="CONTACTSUMMARY" jdbcType="VARCHAR" property="contactsummary" />
+    <result column="NEXTCONTACTTIME" jdbcType="CHAR" property="nextcontacttime" />
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, OWNER, NAME, WEBSITE, PHONE, CREATEBY, CREATETIME, EDITBY, EDITTIME, CONTACTSUMMARY, 
+    NEXTCONTACTTIME, DESCRIPTION, ADDRESS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TBL_CUSTOMER
+    where ID = #{id,jdbcType=CHAR}
+  </select>
+  <insert id="insert" parameterType="com.fyj.crm.workbench.domain.Customer">
+    insert into TBL_CUSTOMER (ID, OWNER, NAME, WEBSITE, 
+      PHONE, CREATEBY, CREATETIME, 
+      EDITBY, EDITTIME, CONTACTSUMMARY, 
+      NEXTCONTACTTIME, DESCRIPTION, ADDRESS
+      )
+    values (#{id,jdbcType=CHAR}, #{owner,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{website,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{createby,jdbcType=VARCHAR}, #{createtime,jdbcType=CHAR}, 
+      #{editby,jdbcType=VARCHAR}, #{edittime,jdbcType=CHAR}, #{contactsummary,jdbcType=VARCHAR}, 
+      #{nextcontacttime,jdbcType=CHAR}, #{description,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fyj.crm.workbench.domain.Customer">
+    insert into TBL_CUSTOMER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="owner != null">
+        OWNER,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="website != null">
+        WEBSITE,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="createby != null">
+        CREATEBY,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="editby != null">
+        EDITBY,
+      </if>
+      <if test="edittime != null">
+        EDITTIME,
+      </if>
+      <if test="contactsummary != null">
+        CONTACTSUMMARY,
+      </if>
+      <if test="nextcontacttime != null">
+        NEXTCONTACTTIME,
+      </if>
+      <if test="description != null">
+        DESCRIPTION,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="owner != null">
+        #{owner,jdbcType=CHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null">
+        #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=CHAR},
+      </if>
+      <if test="editby != null">
+        #{editby,jdbcType=VARCHAR},
+      </if>
+      <if test="edittime != null">
+        #{edittime,jdbcType=CHAR},
+      </if>
+      <if test="contactsummary != null">
+        #{contactsummary,jdbcType=VARCHAR},
+      </if>
+      <if test="nextcontacttime != null">
+        #{nextcontacttime,jdbcType=CHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fyj.crm.workbench.domain.Customer">
+    update TBL_CUSTOMER
+    <set>
+      <if test="owner != null">
+        OWNER = #{owner,jdbcType=CHAR},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null">
+        WEBSITE = #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="createby != null">
+        CREATEBY = #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=CHAR},
+      </if>
+      <if test="editby != null">
+        EDITBY = #{editby,jdbcType=VARCHAR},
+      </if>
+      <if test="edittime != null">
+        EDITTIME = #{edittime,jdbcType=CHAR},
+      </if>
+      <if test="contactsummary != null">
+        CONTACTSUMMARY = #{contactsummary,jdbcType=VARCHAR},
+      </if>
+      <if test="nextcontacttime != null">
+        NEXTCONTACTTIME = #{nextcontacttime,jdbcType=CHAR},
+      </if>
+      <if test="description != null">
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fyj.crm.workbench.domain.Customer">
+    update TBL_CUSTOMER
+    set OWNER = #{owner,jdbcType=CHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      WEBSITE = #{website,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      CREATEBY = #{createby,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=CHAR},
+      EDITBY = #{editby,jdbcType=VARCHAR},
+      EDITTIME = #{edittime,jdbcType=CHAR},
+      CONTACTSUMMARY = #{contactsummary,jdbcType=VARCHAR},
+      NEXTCONTACTTIME = #{nextcontacttime,jdbcType=CHAR},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

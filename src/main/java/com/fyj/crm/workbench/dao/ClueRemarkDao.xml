@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fyj.crm.workbench.dao.ClueRemarkDao">
+  <delete id="deleteById">
+    delete from tbl_clue_remark where id=#{id}
+  </delete>
+  <select id="getByClueId" resultType="ClueRemark">
+    select * from tbl_clue_remark where clueid=#{clueid}
+  </select>
+  <resultMap id="BaseResultMap" type="com.fyj.crm.workbench.domain.ClueRemark">
+    <id column="ID" jdbcType="CHAR" property="id" />
+    <result column="NOTECONTENT" jdbcType="VARCHAR" property="notecontent" />
+    <result column="CREATEBY" jdbcType="VARCHAR" property="createby" />
+    <result column="CREATETIME" jdbcType="CHAR" property="createtime" />
+    <result column="EDITBY" jdbcType="VARCHAR" property="editby" />
+    <result column="EDITTIME" jdbcType="CHAR" property="edittime" />
+    <result column="EDITFLAG" jdbcType="CHAR" property="editflag" />
+    <result column="CLUEID" jdbcType="CHAR" property="clueid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NOTECONTENT, CREATEBY, CREATETIME, EDITBY, EDITTIME, EDITFLAG, CLUEID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TBL_CLUE_REMARK
+    where ID = #{id,jdbcType=CHAR}
+  </select>
+  <insert id="insert" parameterType="com.fyj.crm.workbench.domain.ClueRemark">
+    insert into TBL_CLUE_REMARK (ID, NOTECONTENT, CREATEBY, 
+      CREATETIME, EDITBY, EDITTIME, 
+      EDITFLAG, CLUEID)
+    values (#{id,jdbcType=CHAR}, #{notecontent,jdbcType=VARCHAR}, #{createby,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=CHAR}, #{editby,jdbcType=VARCHAR}, #{edittime,jdbcType=CHAR}, 
+      #{editflag,jdbcType=CHAR}, #{clueid,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fyj.crm.workbench.domain.ClueRemark">
+    insert into TBL_CLUE_REMARK
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="notecontent != null">
+        NOTECONTENT,
+      </if>
+      <if test="createby != null">
+        CREATEBY,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="editby != null">
+        EDITBY,
+      </if>
+      <if test="edittime != null">
+        EDITTIME,
+      </if>
+      <if test="editflag != null">
+        EDITFLAG,
+      </if>
+      <if test="clueid != null">
+        CLUEID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="notecontent != null">
+        #{notecontent,jdbcType=VARCHAR},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=CHAR},
+      </if>
+      <if test="editby != null">
+        #{editby,jdbcType=VARCHAR},
+      </if>
+      <if test="edittime != null">
+        #{edittime,jdbcType=CHAR},
+      </if>
+      <if test="editflag != null">
+        #{editflag,jdbcType=CHAR},
+      </if>
+      <if test="clueid != null">
+        #{clueid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fyj.crm.workbench.domain.ClueRemark">
+    update TBL_CLUE_REMARK
+    <set>
+      <if test="notecontent != null">
+        NOTECONTENT = #{notecontent,jdbcType=VARCHAR},
+      </if>
+      <if test="createby != null">
+        CREATEBY = #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=CHAR},
+      </if>
+      <if test="editby != null">
+        EDITBY = #{editby,jdbcType=VARCHAR},
+      </if>
+      <if test="edittime != null">
+        EDITTIME = #{edittime,jdbcType=CHAR},
+      </if>
+      <if test="editflag != null">
+        EDITFLAG = #{editflag,jdbcType=CHAR},
+      </if>
+      <if test="clueid != null">
+        CLUEID = #{clueid,jdbcType=CHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fyj.crm.workbench.domain.ClueRemark">
+    update TBL_CLUE_REMARK
+    set NOTECONTENT = #{notecontent,jdbcType=VARCHAR},
+      CREATEBY = #{createby,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=CHAR},
+      EDITBY = #{editby,jdbcType=VARCHAR},
+      EDITTIME = #{edittime,jdbcType=CHAR},
+      EDITFLAG = #{editflag,jdbcType=CHAR},
+      CLUEID = #{clueid,jdbcType=CHAR}
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fyj.crm.settings.dao.DicValueDao">
+  <select id="getDicValuesByTypeCode" resultType="DicValue">
+    select * from tbl_dic_value where typecode=#{typecode} order by orderno
+  </select>
+  <resultMap id="BaseResultMap" type="com.fyj.crm.settings.domain.DicValue">
+    <id column="ID" jdbcType="CHAR" property="id" />
+    <result column="VALUE" jdbcType="VARCHAR" property="value" />
+    <result column="TEXT" jdbcType="VARCHAR" property="text" />
+    <result column="ORDERNO" jdbcType="VARCHAR" property="orderno" />
+    <result column="TYPECODE" jdbcType="VARCHAR" property="typecode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, VALUE, TEXT, ORDERNO, TYPECODE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TBL_DIC_VALUE
+    where ID = #{id,jdbcType=CHAR}
+  </select>
+  <insert id="insert" parameterType="com.fyj.crm.settings.domain.DicValue">
+    insert into TBL_DIC_VALUE (ID, VALUE, TEXT, 
+      ORDERNO, TYPECODE)
+    values (#{id,jdbcType=CHAR}, #{value,jdbcType=VARCHAR}, #{text,jdbcType=VARCHAR}, 
+      #{orderno,jdbcType=VARCHAR}, #{typecode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fyj.crm.settings.domain.DicValue">
+    insert into TBL_DIC_VALUE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="value != null">
+        VALUE,
+      </if>
+      <if test="text != null">
+        TEXT,
+      </if>
+      <if test="orderno != null">
+        ORDERNO,
+      </if>
+      <if test="typecode != null">
+        TYPECODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null">
+        #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="typecode != null">
+        #{typecode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fyj.crm.settings.domain.DicValue">
+    update TBL_DIC_VALUE
+    <set>
+      <if test="value != null">
+        VALUE = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null">
+        TEXT = #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null">
+        ORDERNO = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="typecode != null">
+        TYPECODE = #{typecode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fyj.crm.settings.domain.DicValue">
+    update TBL_DIC_VALUE
+    set VALUE = #{value,jdbcType=VARCHAR},
+      TEXT = #{text,jdbcType=VARCHAR},
+      ORDERNO = #{orderno,jdbcType=VARCHAR},
+      TYPECODE = #{typecode,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

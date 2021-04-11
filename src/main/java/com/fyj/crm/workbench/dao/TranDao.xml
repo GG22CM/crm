@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fyj.crm.workbench.dao.TranDao">
+  <select id="getCountGroupByStage" resultType="map">
+    select stage as "name",count(*) as "value" from tbl_tran group by stage
+  </select>
+  <select id="getTotal" resultType="int">
+    select count(*) from tbl_tran
+  </select>
+  <update id="updateStage">
+    update tbl_tran set stage=#{stage},editby=#{editby},edittime=#{edittime} where id=#{id}
+  </update>
+  <select id="detail" resultType="Tran">
+    select
+      t.id,
+      u.name as owner,
+      t.money,
+      t.name,
+      t.expecteddate,
+      cus.name as customerid,
+      t.stage,
+      t.type,
+      t.source,
+      ac.name as activityid,
+      cons.fullname as contactsid,
+      t.createby,
+      t.createtime,
+      t.editby,
+      t.edittime,
+      t.description,
+      t.contactsummary,
+      t.nextcontacttime
+
+    from tbl_tran t
+    join tbl_user u on t.owner=u.id
+    join tbl_customer cus on t.customerid=cus.id
+    left join tbl_contacts cons on t.contactsid=cons.id
+    left join tbl_activity ac on t.activityid=ac.id
+    where  t.id=#{id}
+  </select>
+  <resultMap id="BaseResultMap" type="com.fyj.crm.workbench.domain.Tran">
+    <id column="ID" jdbcType="CHAR" property="id" />
+    <result column="OWNER" jdbcType="CHAR" property="owner" />
+    <result column="MONEY" jdbcType="VARCHAR" property="money" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="EXPECTEDDATE" jdbcType="CHAR" property="expecteddate" />
+    <result column="CUSTOMERID" jdbcType="CHAR" property="customerid" />
+    <result column="STAGE" jdbcType="VARCHAR" property="stage" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="SOURCE" jdbcType="VARCHAR" property="source" />
+    <result column="ACTIVITYID" jdbcType="CHAR" property="activityid" />
+    <result column="CONTACTSID" jdbcType="CHAR" property="contactsid" />
+    <result column="CREATEBY" jdbcType="VARCHAR" property="createby" />
+    <result column="CREATETIME" jdbcType="CHAR" property="createtime" />
+    <result column="EDITBY" jdbcType="VARCHAR" property="editby" />
+    <result column="EDITTIME" jdbcType="CHAR" property="edittime" />
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="CONTACTSUMMARY" jdbcType="VARCHAR" property="contactsummary" />
+    <result column="NEXTCONTACTTIME" jdbcType="CHAR" property="nextcontacttime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, OWNER, MONEY, NAME, EXPECTEDDATE, CUSTOMERID, STAGE, TYPE, SOURCE, ACTIVITYID, 
+    CONTACTSID, CREATEBY, CREATETIME, EDITBY, EDITTIME, DESCRIPTION, CONTACTSUMMARY, 
+    NEXTCONTACTTIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TBL_TRAN
+    where ID = #{id,jdbcType=CHAR}
+  </select>
+  <insert id="insert" parameterType="com.fyj.crm.workbench.domain.Tran">
+    insert into TBL_TRAN (ID, OWNER, MONEY, NAME, 
+      EXPECTEDDATE, CUSTOMERID, STAGE, 
+      TYPE, SOURCE, ACTIVITYID, 
+      CONTACTSID, CREATEBY, CREATETIME, 
+      EDITBY, EDITTIME, DESCRIPTION, 
+      CONTACTSUMMARY, NEXTCONTACTTIME)
+    values (#{id,jdbcType=CHAR}, #{owner,jdbcType=CHAR}, #{money,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{expecteddate,jdbcType=CHAR}, #{customerid,jdbcType=CHAR}, #{stage,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{activityid,jdbcType=CHAR}, 
+      #{contactsid,jdbcType=CHAR}, #{createby,jdbcType=VARCHAR}, #{createtime,jdbcType=CHAR}, 
+      #{editby,jdbcType=VARCHAR}, #{edittime,jdbcType=CHAR}, #{description,jdbcType=VARCHAR}, 
+      #{contactsummary,jdbcType=VARCHAR}, #{nextcontacttime,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fyj.crm.workbench.domain.Tran">
+    insert into TBL_TRAN
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="owner != null">
+        OWNER,
+      </if>
+      <if test="money != null">
+        MONEY,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="expecteddate != null">
+        EXPECTEDDATE,
+      </if>
+      <if test="customerid != null">
+        CUSTOMERID,
+      </if>
+      <if test="stage != null">
+        STAGE,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="source != null">
+        SOURCE,
+      </if>
+      <if test="activityid != null">
+        ACTIVITYID,
+      </if>
+      <if test="contactsid != null">
+        CONTACTSID,
+      </if>
+      <if test="createby != null">
+        CREATEBY,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="editby != null">
+        EDITBY,
+      </if>
+      <if test="edittime != null">
+        EDITTIME,
+      </if>
+      <if test="description != null">
+        DESCRIPTION,
+      </if>
+      <if test="contactsummary != null">
+        CONTACTSUMMARY,
+      </if>
+      <if test="nextcontacttime != null">
+        NEXTCONTACTTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="owner != null">
+        #{owner,jdbcType=CHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="expecteddate != null">
+        #{expecteddate,jdbcType=CHAR},
+      </if>
+      <if test="customerid != null">
+        #{customerid,jdbcType=CHAR},
+      </if>
+      <if test="stage != null">
+        #{stage,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="activityid != null">
+        #{activityid,jdbcType=CHAR},
+      </if>
+      <if test="contactsid != null">
+        #{contactsid,jdbcType=CHAR},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=CHAR},
+      </if>
+      <if test="editby != null">
+        #{editby,jdbcType=VARCHAR},
+      </if>
+      <if test="edittime != null">
+        #{edittime,jdbcType=CHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsummary != null">
+        #{contactsummary,jdbcType=VARCHAR},
+      </if>
+      <if test="nextcontacttime != null">
+        #{nextcontacttime,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fyj.crm.workbench.domain.Tran">
+    update TBL_TRAN
+    <set>
+      <if test="owner != null">
+        OWNER = #{owner,jdbcType=CHAR},
+      </if>
+      <if test="money != null">
+        MONEY = #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="expecteddate != null">
+        EXPECTEDDATE = #{expecteddate,jdbcType=CHAR},
+      </if>
+      <if test="customerid != null">
+        CUSTOMERID = #{customerid,jdbcType=CHAR},
+      </if>
+      <if test="stage != null">
+        STAGE = #{stage,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        SOURCE = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="activityid != null">
+        ACTIVITYID = #{activityid,jdbcType=CHAR},
+      </if>
+      <if test="contactsid != null">
+        CONTACTSID = #{contactsid,jdbcType=CHAR},
+      </if>
+      <if test="createby != null">
+        CREATEBY = #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=CHAR},
+      </if>
+      <if test="editby != null">
+        EDITBY = #{editby,jdbcType=VARCHAR},
+      </if>
+      <if test="edittime != null">
+        EDITTIME = #{edittime,jdbcType=CHAR},
+      </if>
+      <if test="description != null">
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsummary != null">
+        CONTACTSUMMARY = #{contactsummary,jdbcType=VARCHAR},
+      </if>
+      <if test="nextcontacttime != null">
+        NEXTCONTACTTIME = #{nextcontacttime,jdbcType=CHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fyj.crm.workbench.domain.Tran">
+    update TBL_TRAN
+    set OWNER = #{owner,jdbcType=CHAR},
+      MONEY = #{money,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      EXPECTEDDATE = #{expecteddate,jdbcType=CHAR},
+      CUSTOMERID = #{customerid,jdbcType=CHAR},
+      STAGE = #{stage,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      SOURCE = #{source,jdbcType=VARCHAR},
+      ACTIVITYID = #{activityid,jdbcType=CHAR},
+      CONTACTSID = #{contactsid,jdbcType=CHAR},
+      CREATEBY = #{createby,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=CHAR},
+      EDITBY = #{editby,jdbcType=VARCHAR},
+      EDITTIME = #{edittime,jdbcType=CHAR},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      CONTACTSUMMARY = #{contactsummary,jdbcType=VARCHAR},
+      NEXTCONTACTTIME = #{nextcontacttime,jdbcType=CHAR}
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

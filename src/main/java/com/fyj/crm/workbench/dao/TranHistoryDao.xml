@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fyj.crm.workbench.dao.TranHistoryDao">
+  <select id="getHistoryListByTranId" resultType="TranHistory">
+    select * from tbl_tran_history where tranId=#{tranId}
+  </select>
+  <resultMap id="BaseResultMap" type="com.fyj.crm.workbench.domain.TranHistory">
+    <id column="ID" jdbcType="CHAR" property="id" />
+    <result column="STAGE" jdbcType="VARCHAR" property="stage" />
+    <result column="MONEY" jdbcType="VARCHAR" property="money" />
+    <result column="EXPECTEDDATE" jdbcType="CHAR" property="expecteddate" />
+    <result column="CREATETIME" jdbcType="CHAR" property="createtime" />
+    <result column="CREATEBY" jdbcType="VARCHAR" property="createby" />
+    <result column="TRANID" jdbcType="CHAR" property="tranid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, STAGE, MONEY, EXPECTEDDATE, CREATETIME, CREATEBY, TRANID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TBL_TRAN_HISTORY
+    where ID = #{id,jdbcType=CHAR}
+  </select>
+  <insert id="insert" parameterType="com.fyj.crm.workbench.domain.TranHistory">
+    insert into TBL_TRAN_HISTORY (ID, STAGE, MONEY, 
+      EXPECTEDDATE, CREATETIME, CREATEBY, 
+      TRANID)
+    values (#{id,jdbcType=CHAR}, #{stage,jdbcType=VARCHAR}, #{money,jdbcType=VARCHAR}, 
+      #{expecteddate,jdbcType=CHAR}, #{createtime,jdbcType=CHAR}, #{createby,jdbcType=VARCHAR}, 
+      #{tranid,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fyj.crm.workbench.domain.TranHistory">
+    insert into TBL_TRAN_HISTORY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="stage != null">
+        STAGE,
+      </if>
+      <if test="money != null">
+        MONEY,
+      </if>
+      <if test="expecteddate != null">
+        EXPECTEDDATE,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="createby != null">
+        CREATEBY,
+      </if>
+      <if test="tranid != null">
+        TRANID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="stage != null">
+        #{stage,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="expecteddate != null">
+        #{expecteddate,jdbcType=CHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=CHAR},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="tranid != null">
+        #{tranid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fyj.crm.workbench.domain.TranHistory">
+    update TBL_TRAN_HISTORY
+    <set>
+      <if test="stage != null">
+        STAGE = #{stage,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        MONEY = #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="expecteddate != null">
+        EXPECTEDDATE = #{expecteddate,jdbcType=CHAR},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=CHAR},
+      </if>
+      <if test="createby != null">
+        CREATEBY = #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="tranid != null">
+        TRANID = #{tranid,jdbcType=CHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fyj.crm.workbench.domain.TranHistory">
+    update TBL_TRAN_HISTORY
+    set STAGE = #{stage,jdbcType=VARCHAR},
+      MONEY = #{money,jdbcType=VARCHAR},
+      EXPECTEDDATE = #{expecteddate,jdbcType=CHAR},
+      CREATETIME = #{createtime,jdbcType=CHAR},
+      CREATEBY = #{createby,jdbcType=VARCHAR},
+      TRANID = #{tranid,jdbcType=CHAR}
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

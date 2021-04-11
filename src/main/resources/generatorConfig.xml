@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <properties resource="jdbc.properties" />
+    <!-- 指定数据连接驱动jar地址 -->
+    <classPathEntry location="E:\mavenRepository\repository\com\oracle\ojdbc6\11.2.0.1.0\ojdbc6-11.2.0.1.0.jar" />
+    <context id="oracle"  targetRuntime="MyBatis3">
+
+        <!-- 生成的java文件编码 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- mysql 数据库反引号，oracle为双引号 -->
+<!--        <property name="beginningDelimiter" value=""/>-->
+<!--        <property name="endingDelimiter" value=""/>-->
+
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释true:是 -->
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库连接 -->
+        <jdbcConnection connectionURL="${jdbc.url}" driverClass="oracle.jdbc.driver.OracleDriver" password="${jdbc.password}" userId="${jdbc.username}" />
+        <!-- 生成实体类 -->
+        <javaModelGenerator targetPackage="com.fyj.crm.workbench.domain" targetProject="D:\IDEAproject\crm\src\main\java">
+            <!-- 是否对model添加 构造函数 -->
+            <property name="constructorBased" value="false"/>
+            <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 建立的Model对象是否 不可改变  即生成的Model对象不会有 setter方法，只有构造方法 -->
+            <property name="immutable" value="false"/>
+            <property name="trimStrings" value="false"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="com.fyj.crm.workbench.dao" targetProject="D:\IDEAproject\crm\src\main\java" >
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- dao生成的存放地址 targetProject + targetPackage == 生成文件所在位置  生成的dao接口就在项目的com.dao中-->
+        <javaClientGenerator targetPackage="com.fyj.crm.workbench.dao"
+                             targetProject="D:\IDEAproject\crm\src\main\java" type="XMLMAPPER">
+        </javaClientGenerator>
+
+        <table schema="" tableName="tbl_clue"  domainObjectName="Clue" mapperName="ClueDao" enableSelectByExample="false" enableDeleteByPrimaryKey="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"/>
+        <table tableName="tbl_clue_remark" domainObjectName="ClueRemark" mapperName="ClueRemarkDao" enableSelectByExample="false" enableDeleteByPrimaryKey="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"/>
+        <table tableName="tbl_clue_activity_relation" domainObjectName="ClueActivityRelation" mapperName="ClueActivityRelationDao" enableSelectByExample="false" enableDeleteByPrimaryKey="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"/>
+        <table tableName="tbl_contacts" domainObjectName="Contacts" mapperName="ContactsDao" enableSelectByExample="false"  enableDeleteByPrimaryKey="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"/>
+        <table tableName="tbl_contacts_activity_relation" domainObjectName="ContactsActivityRelation" mapperName="ContactsActivityRelationDao" enableSelectByExample="false" enableDeleteByPrimaryKey="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"/>
+        <table tableName="tbl_contacts_remark" domainObjectName="ContactsRemark" mapperName="ContactsRemarkDao" enableSelectByExample="false" enableDeleteByPrimaryKey="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"/>
+        <table tableName="tbl_customer" domainObjectName="Customer" mapperName="CustomerDao" enableSelectByExample="false" enableDeleteByPrimaryKey="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"/>
+        <table tableName="tbl_customer_remark" domainObjectName="CustomerRemark" mapperName="CustomerRemarkDao" enableSelectByExample="false" enableDeleteByPrimaryKey="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"/>
+        <table tableName="tbl_tran" domainObjectName="Tran" mapperName="TranDao" enableSelectByExample="false" enableDeleteByPrimaryKey="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"/>
+        <table tableName="tbl_tran_remark" domainObjectName="TranRemark" mapperName="TranRemarkDao" enableSelectByExample="false" enableDeleteByPrimaryKey="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"/>
+        <table tableName="tbl_tran_history" domainObjectName="TranHistory" mapperName="TranHistoryDao" enableSelectByExample="false" enableDeleteByPrimaryKey="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"/>
+        <table tableName="tbl_dic_type" domainObjectName="DicType" mapperName="DicTypeDao" enableSelectByExample="false" enableDeleteByPrimaryKey="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"/>
+        <table tableName="tbl_dic_value" domainObjectName="DicValue" mapperName="DicValueDao" enableSelectByExample="false" enableDeleteByPrimaryKey="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"/>
+
+    </context>
+</generatorConfiguration>
